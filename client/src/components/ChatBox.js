@@ -23,7 +23,7 @@ const ChatBox = () => {
 
   const fetchMessages = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/messages');
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/messages`);
       //agr refresh kroge toh by default ek bot message aaega !!
       if (res.data.length === 0) {
       setMessages([
@@ -48,7 +48,7 @@ const ChatBox = () => {
       setMessages((prev) => [...prev, newMessage]);
       setInput('');
       setIsTyping(true);
-      const res = await axios.post('http://localhost:5000/api/messages', newMessage);
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/messages`, newMessage);
       setMessages((prev) => [...prev.slice(0, -1), ...res.data]);
       setIsTyping(false);
     } catch (err) {
@@ -60,7 +60,7 @@ const ChatBox = () => {
   const handleClearChat = async () => {
     if (!window.confirm('Are you sure you want to delete all messages?')) return;
     try {
-      await axios.delete('http://localhost:5000/api/messages');
+      await axios.delete(`${process.env.REACT_APP_API_URL}/messages`);
       setMessages([
         {
           sender:"Bot",
